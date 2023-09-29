@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "estaciona-b5d8f": {
+      "hosting": {
+        "app": [
+          "estaciona-b5d8f"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "estaciona-b5d8f"
+  }
+}
