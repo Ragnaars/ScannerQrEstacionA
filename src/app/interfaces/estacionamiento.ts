@@ -1,5 +1,8 @@
 export interface Estacionamiento {
-    id: number;
+    uid: string;
     disponible: boolean;
+    patente: string;
+    email: string;
     tipo: boolean;
+    nro_est: number;
 }
