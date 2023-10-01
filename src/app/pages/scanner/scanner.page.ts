@@ -23,6 +23,7 @@ export class ScannerPage implements OnInit {
   idEst!: string;
   encontrado: Boolean = false;
   bloqueoLecturaQR: boolean = false;
+  estacionamientos: any;
 
   constructor(private fireEst: FirestoreService, private fireUsuarios: FireUsuariosService) { }
 
@@ -32,6 +33,10 @@ export class ScannerPage implements OnInit {
       this.data = data;
       console.log("data", this.data);
     });
+
+    this.fireEst.obtenerDoc().subscribe((estacionamientos: any) => {
+      this.estacionamientos = estacionamientos;
+    })
 
     this.getEstDisp();
   }
@@ -92,26 +97,20 @@ export class ScannerPage implements OnInit {
         console.log("uid", this.uid);
         console.log("email", this.email);
 
-        // this.fireEst.obtenerDoc().subscribe((estacionamientos: any) => {
-        //   estacionamientos.some((estacionamiento: any) => {
-        //     if (estacionamiento.propietario === this.email) {
-        //       this.fireEst.updateDoc(estacionamiento.id, { disponible: true, uid: '', propietario: '', patente: '' });
-        //     }
-        //   })
-        // })
-        const estacionamientoPropietario = this.data.find((estacionamiento: any) => estacionamiento.email === this.email);
+        const estacionamientoPropietario = this.estacionamientos.find((estacionamiento: any) => estacionamiento.email === this.email);
+        console.log(typeof estacionamientoPropietario, "+", estacionamientoPropietario)
 
         if (estacionamientoPropietario) {
           // Si el usuario ya es propietario de un estacionamiento, libera ese estacionamiento
           console.log("usuario a actualizar", estacionamientoPropietario)
-          this.fireEst.updateDoc(this.idEst, { disponible: true, email: '', patente: '' });
+          this.fireEst.updateDoc(estacionamientoPropietario.id, { disponible: true, email: '', patente: '' });
           this.fireUsuarios.updateDoc(estacionamientoPropietario.id, { id_est: '' });
+        } else {
+          this.getEstDisp();
+
+          this.fireEst.updateDoc(this.idEst, { disponible: false, email: this.email, patente: 'ABC12345' });
+          this.fireUsuarios.updateDoc(this.uid, { id_est: this.idEst });
         }
-
-        this.getEstDisp();
-
-        this.fireEst.updateDoc(this.idEst, { disponible: false, email: this.email, patente: 'ABC12345' });
-        this.fireUsuarios.updateDoc(this.uid, { id_est: this.idEst });
       }
 
 
