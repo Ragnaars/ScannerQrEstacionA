@@ -5,15 +5,18 @@
 ></ngx-scanner-qrcode>
 
 <!-- data  -->
-<span>{{ action.data.value | json }}</span
+<!-- <span>{{ action.data.value | json }}</span -->
 ><!-- value -->
-<span>{{ action.data | async | json }}</span
+<!-- <span>{{ action.data | async | json }}</span -->
 ><!-- async -->
 
+<h3>Escaneado : {{this.email}}</h3>
+<h3 *ngIf="est_asig >0">Estacionamiento asignado {{est_asig}}</h3>
+<h3 *ngIf="est_asig == 0">Desvinculado de estacionamiento</h3>
 <!-- Loading -->
 <p *ngIf="action.isLoading">⌛ Loading...</p>
 
 <!-- start -->
-<button (click)="action.isStart ? action.stop() : action.start()">
+<ion-button (click)="action.isStart ? action.stop() : action.start()">
   {{action.isStart ? 'Stop' : 'Start'}}
-</button>
+</ion-button>

@@ -4,6 +4,15 @@ import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { FirestoreService } from "./../../services/firestore.service"
 import { FireUsuariosService } from "./../../services/fire-usuarios.service"
+import {
+  get,
+  getMs,
+  getTime,
+  getDate,
+  getCompareDate,
+  getFormatDate,
+} from "util-tiempo";
+
 
 
 
@@ -24,6 +33,8 @@ export class ScannerPage implements OnInit {
   encontrado: Boolean = false;
   bloqueoLecturaQR: boolean = false;
   estacionamientos: any;
+  nroEst: number = 0;
+  est_asig: number = 0;
 
   constructor(private fireEst: FirestoreService, private fireUsuarios: FireUsuariosService) { }
 
@@ -98,18 +109,25 @@ export class ScannerPage implements OnInit {
         console.log("email", this.email);
 
         const estacionamientoPropietario = this.estacionamientos.find((estacionamiento: any) => estacionamiento.email === this.email);
-        console.log(typeof estacionamientoPropietario, "+", estacionamientoPropietario)
+
+
+        const datosEstacionado = this.data.find((usuario: any) => usuario.email === this.email);
+        console.log("datos estacionado", datosEstacionado)
+
 
         if (estacionamientoPropietario) {
           // Si el usuario ya es propietario de un estacionamiento, libera ese estacionamiento
           console.log("usuario a actualizar", estacionamientoPropietario)
           this.fireEst.updateDoc(estacionamientoPropietario.id, { disponible: true, email: '', patente: '' });
-          this.fireUsuarios.updateDoc(estacionamientoPropietario.id, { id_est: '' });
+          this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: '', nro_est: 0 });
+          this.est_asig = 0;
         } else {
           this.getEstDisp();
 
           this.fireEst.updateDoc(this.idEst, { disponible: false, email: this.email, patente: 'ABC12345' });
-          this.fireUsuarios.updateDoc(this.uid, { id_est: this.idEst });
+          this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: this.idEst, nro_est: this.nroEst });
+          this.est_asig = this.nroEst
+
         }
       }
 
@@ -130,9 +148,10 @@ export class ScannerPage implements OnInit {
       estacionamientos.some((estacionamiento: any) => {
         if (estacionamiento.disponible) {
           this.idEst = estacionamiento.id;
+          this.nroEst = estacionamiento.nro_est;
           this.encontrado = true;
           console.log("id", this.idEst);
-          return this.idEst;
+          return this.idEst && this.nroEst;
         }
         return false; // add this line to fix the issue
       })
