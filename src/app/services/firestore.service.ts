@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData, query, orderBy, doc, setDoc, limit, collectionChanges, updateDoc } from '@angular/fire/firestore'
+import { Firestore, collection, addDoc, collectionData, query, orderBy, doc, setDoc, limit, collectionChanges, updateDoc, where } from '@angular/fire/firestore'
 import { Estacionamiento } from "./../interfaces/estacionamiento";
 import { Observable } from 'rxjs';
 
@@ -19,6 +19,15 @@ export class FirestoreService {
     const est = collection(this.firestore, 'estacionamiento');
     const sortedquery = query(est, orderBy('disponible', 'desc'));
     return collectionData(est, { idField: 'id' }) as Observable<Estacionamiento[]>;
+
+  }
+
+  obtenerDocPref(): Observable<Estacionamiento[]> {
+    const est = collection(this.firestore, 'estacionamiento');
+    const sortedquery = query(est, where('tipo', '==', true),
+      where('disponible', '==', true),
+      orderBy('nro_est', 'asc'));
+    return collectionData(sortedquery, { idField: 'id' }) as Observable<Estacionamiento[]>
 
   }
 

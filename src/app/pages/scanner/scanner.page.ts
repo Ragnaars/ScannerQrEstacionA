@@ -35,6 +35,9 @@ export class ScannerPage implements OnInit {
   estacionamientos: any;
   nroEst: number = 0;
   est_asig: number = 0;
+  idEstPref!: string;
+  nroEstPref: number = 0;
+  cantEstPref!: number;
 
   constructor(private fireEst: FirestoreService, private fireUsuarios: FireUsuariosService) { }
 
@@ -47,9 +50,11 @@ export class ScannerPage implements OnInit {
 
     this.fireEst.obtenerDoc().subscribe((estacionamientos: any) => {
       this.estacionamientos = estacionamientos;
+      console.log("estacionamientostotales", this.estacionamientos);
     })
 
-    this.getEstDisp();
+    // this.getEstDisp();
+    // this.getEstDispPref();
   }
 
 
@@ -115,6 +120,7 @@ export class ScannerPage implements OnInit {
         console.log("datos estacionado", datosEstacionado)
 
 
+
         if (estacionamientoPropietario) {
           // Si el usuario ya es propietario de un estacionamiento, libera ese estacionamiento
           console.log("usuario a actualizar", estacionamientoPropietario)
@@ -122,11 +128,32 @@ export class ScannerPage implements OnInit {
           this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: '', nro_est: 0 });
           this.est_asig = 0;
         } else {
-          this.getEstDisp();
+          if (datosEstacionado.preferencial === true) {
+            console.log("preferencial")
+            this.getEstDispPref2();
+            if (this.cantEstPref == 0) {
+              console.log("preferencial es, pero no hay")
+              this.getEstDisp2();
+              console.log("id a actt", this.idEst, this.nroEst);
+              this.fireEst.updateDoc(this.idEst, { disponible: false, email: this.email, patente: 'ABC12345' });
+              this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: this.idEst, nro_est: this.nroEst });
+              this.est_asig = this.nroEst
+            } else {
+              console.log("id a act", this.idEstPref, this.nroEstPref);
+              //AQUI SE DEBE ACTUALIZAR EL ESTACIONAMIENTO PREFERENCIAL
+              this.fireEst.updateDoc(this.idEstPref, { disponible: false, email: this.email, patente: 'ABC12345' });
+              this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: this.idEstPref, nro_est: this.nroEstPref });
+              this.est_asig = this.nroEstPref
+            }
+          } else {
+            console.log("no preferencial")
+            this.getEstDisp2();
 
-          this.fireEst.updateDoc(this.idEst, { disponible: false, email: this.email, patente: 'ABC12345' });
-          this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: this.idEst, nro_est: this.nroEst });
-          this.est_asig = this.nroEst
+            this.fireEst.updateDoc(this.idEst, { disponible: false, email: this.email, patente: 'ABC12345' });
+            this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: this.idEst, nro_est: this.nroEst });
+            this.est_asig = this.nroEst
+
+          }
 
         }
       }
@@ -146,7 +173,7 @@ export class ScannerPage implements OnInit {
 
     this.fireEst.obtenerDoc().subscribe((estacionamientos: any) => {
       estacionamientos.some((estacionamiento: any) => {
-        if (estacionamiento.disponible) {
+        if (estacionamiento.disponible != estacionamiento.tipo) {
           this.idEst = estacionamiento.id;
           this.nroEst = estacionamiento.nro_est;
           this.encontrado = true;
@@ -158,20 +185,54 @@ export class ScannerPage implements OnInit {
     });
   }
 
-  getEstDispPref() { // Variable para controlar si se ha encontrado un estacionamiento disponible
+  getEstDisp2() { // Variable para controlar si se ha encontrado un estacionamiento disponible
+    this.estacionamientos.some((estacionamiento: any) => {
+      if (estacionamiento.disponible && estacionamiento.tipo != true) {
+        this.idEst = estacionamiento.id;
+        this.nroEst = estacionamiento.nro_est;
+        this.encontrado = true;
+        console.log("id", this.idEst);
+        return this.idEst && this.nroEst;
+      }
+      return false; // add this line to fix the issue
+    })
 
-    this.fireEst.obtenerDoc().subscribe((estacionamientos: any) => {
-      estacionamientos.some((estacionamiento: any) => {
-        if (estacionamiento.disponible) {
-          this.idEst = estacionamiento.id;
-          this.nroEst = estacionamiento.nro_est;
-          this.encontrado = true;
-          console.log("id", this.idEst);
-          return this.idEst && this.nroEst;
-        }
-        return false; // add this line to fix the issue
-      })
+  }
+
+  getEstDispPref() { // Variable para controlar si se ha encontrado un estacionamiento disponible
+    this.fireEst.obtenerDocPref().subscribe((estacionamientos: any) => {
+      console.log("estacionamientos", estacionamientos)
+      if (estacionamientos.length == 0) {
+        this.cantEstPref = 0;
+        return this.cantEstPref;
+      } else
+        this.idEstPref = estacionamientos[0].id;
+      this.nroEstPref = estacionamientos[0].nro_est;
+      this.encontrado = true;
+      console.log("idPref", this.idEst, this.nroEst);
+      return this.idEstPref && this.nroEstPref;
     });
+  }
+
+
+  getEstDispPref2() {
+    this.encontrado = false; // Reiniciamos la bandera
+
+    for (const estacionamiento of this.estacionamientos) {
+      if (estacionamiento.tipo === true && estacionamiento.disponible === true) {
+        this.idEstPref = estacionamiento.id;
+        this.nroEstPref = estacionamiento.nro_est;
+        this.encontrado = true;
+        console.log("idPref", this.idEstPref, this.nroEstPref);
+        break; // Detenemos el bucle una vez que se encuentra un estacionamiento preferencial disponible
+      }
+    }
+
+    // Si no se encontró ningún estacionamiento preferencial disponible, establecemos this.cantEstPref en 0
+    if (!this.encontrado) {
+      this.cantEstPref = 0;
+      console.log("cantPref", this.cantEstPref);
+    }
   }
 
 }
