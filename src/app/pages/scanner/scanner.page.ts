@@ -158,4 +158,20 @@ export class ScannerPage implements OnInit {
     });
   }
 
+  getEstDispPref() { // Variable para controlar si se ha encontrado un estacionamiento disponible
+
+    this.fireEst.obtenerDoc().subscribe((estacionamientos: any) => {
+      estacionamientos.some((estacionamiento: any) => {
+        if (estacionamiento.disponible) {
+          this.idEst = estacionamiento.id;
+          this.nroEst = estacionamiento.nro_est;
+          this.encontrado = true;
+          console.log("id", this.idEst);
+          return this.idEst && this.nroEst;
+        }
+        return false; // add this line to fix the issue
+      })
+    });
+  }
+
 }
