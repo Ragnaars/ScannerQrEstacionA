@@ -101,12 +101,17 @@ export class ScannerPage implements OnInit {
   // }
 
   async onQRCodeScanned(event: any) {
+
     if (!this.bloqueoLecturaQR) {
       this.bloqueoLecturaQR = true; // Activar el bloqueo de lectura
       this.codigoQR = event[0].value;
       const partes = this.codigoQR.split("//");
 
+      const verificador = this.estacionamientos.filter((estacionamiento: any) => estacionamiento.disponible === true)
+
       if (partes.length === 2) {
+        const now = new Date().getTime();
+        console.log("fecha", now)
         this.email = partes[1];
         this.uid = partes[0];
 
@@ -115,11 +120,8 @@ export class ScannerPage implements OnInit {
 
         const estacionamientoPropietario = this.estacionamientos.find((estacionamiento: any) => estacionamiento.email === this.email);
 
-
         const datosEstacionado = this.data.find((usuario: any) => usuario.email === this.email);
         console.log("datos estacionado", datosEstacionado)
-
-
 
         if (estacionamientoPropietario) {
           // Si el usuario ya es propietario de un estacionamiento, libera ese estacionamiento
@@ -128,43 +130,52 @@ export class ScannerPage implements OnInit {
           this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: '', nro_est: 0 });
           this.est_asig = 0;
         } else {
-          if (datosEstacionado.preferencial === true) {
-            console.log("preferencial")
-            this.getEstDispPref2();
-            if (this.cantEstPref == 0) {
-              console.log("preferencial es, pero no hay")
-              this.getEstDisp2();
-              console.log("id a actt", this.idEst, this.nroEst);
-              this.fireEst.updateDoc(this.idEst, { disponible: false, email: this.email, patente: 'ABC12345' });
-              this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: this.idEst, nro_est: this.nroEst });
-              this.est_asig = this.nroEst
-            } else {
-              console.log("id a act", this.idEstPref, this.nroEstPref);
-              //AQUI SE DEBE ACTUALIZAR EL ESTACIONAMIENTO PREFERENCIAL
-              this.fireEst.updateDoc(this.idEstPref, { disponible: false, email: this.email, patente: 'ABC12345' });
-              this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: this.idEstPref, nro_est: this.nroEstPref });
-              this.est_asig = this.nroEstPref
-            }
+          const verificador = this.estacionamientos.filter((estacionamiento: any) => estacionamiento.disponible === true)
+          if (verificador.length == 0) {
+            alert("no hay estacionamiento")
           } else {
-            console.log("no preferencial")
-            this.getEstDisp2();
+            if (datosEstacionado.preferencial === true) {
+              console.log("preferencial")
+              this.getEstDispPref2();
+              if (this.cantEstPref == 0) {
+                this.getEstDisp2();
+                console.log("id a actt", this.idEst, this.nroEst);
+                this.fireEst.updateDoc(this.idEst, { disponible: false, email: this.email, patente: 'ABC12345' });
+                this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: this.idEst, nro_est: this.nroEst });
+                this.est_asig = this.nroEst
+              } else {
+                console.log("id a act", this.idEstPref, this.nroEstPref);
+                //AQUI SE DEBE ACTUALIZAR EL ESTACIONAMIENTO PREFERENCIAL
+                this.fireEst.updateDoc(this.idEstPref, { disponible: false, email: this.email, patente: 'ABC12345' });
+                this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: this.idEstPref, nro_est: this.nroEstPref });
+                this.est_asig = this.nroEstPref
+              }
+            } else {
+              console.log("no preferencial")
+              const estMod = this.estacionamientos.filter((estacionamiento: any) => estacionamiento.tipo === false)
 
-            this.fireEst.updateDoc(this.idEst, { disponible: false, email: this.email, patente: 'ABC12345' });
-            this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: this.idEst, nro_est: this.nroEst });
-            this.est_asig = this.nroEst
+              const verifica = estMod.filter((estacionamiento: any) => estacionamiento.disponible === true)
+              console.log("veri", verifica)
 
+              if (verifica.length == 0) {
+                alert("No hay estacionamientos")
+
+              } else {
+                this.getEstDisp2();
+                this.fireEst.updateDoc(this.idEst, { disponible: false, email: this.email, patente: 'ABC12345' });
+                this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: this.idEst, nro_est: this.nroEst });
+                this.est_asig = this.nroEst
+              }
+            }
           }
-
         }
       }
-
-
       this.fireUsuarios.obtenerDoc().subscribe((usuario: any) => {
         // Aquí puedes realizar acciones adicionales con el valor del código QR
       });
-
       setTimeout(() => {
         this.bloqueoLecturaQR = false; // Desactivar el bloqueo de lectura después de un período de tiempo
+        return;
       }, 7000); // 5000 milisegundos = 5 segundos (ajusta este valor según tus necesidades)
     }
   }
