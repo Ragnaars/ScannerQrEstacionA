@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Firestore, collection, addDoc, collectionData, query, orderBy, doc, setDoc, limit, collectionChanges, updateDoc, where } from '@angular/fire/firestore'
 import { Estacionamiento } from "./../interfaces/estacionamiento";
 import { Observable } from 'rxjs';
-import {regEstacionamiento} from "../interfaces/regEstacionamiento"
+import { regEstacionamiento } from "../interfaces/regEstacionamiento"
 
 
 @Injectable({
@@ -16,11 +16,20 @@ export class FirestoreService {
     const est = collection(this.firestore, 'estacionamiento');
     return addDoc(est, estacionamiento);
   }
-  createDocRegHistoricoEst(regEstacionamiento: regEstacionamiento) {
-    console.log("enviado")
+
+  // Método para crear un documento historico de entrada al estacionamiento
+  createDocRegHistoricoEstEntrada(regEstacionamiento: regEstacionamiento) {
     const est = collection(this.firestore, 'regHistoricoEst');
     return addDoc(est, regEstacionamiento);
   }
+
+
+  // Método para crear un documento historico de salida al estacionamiento
+  createDocRegHistoricoEstSalida(regEstacionamiento: regEstacionamiento) {
+    const est = collection(this.firestore, 'regHistoricoEstSalida');
+    return addDoc(est, regEstacionamiento);
+  }
+
 
   obtenerDoc(): Observable<Estacionamiento[]> {
     const est = collection(this.firestore, 'estacionamiento');
