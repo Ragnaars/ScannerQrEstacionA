@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Firestore, collection, addDoc, collectionData, query, orderBy, doc, setDoc, limit, collectionChanges, updateDoc, where } from '@angular/fire/firestore'
 import { Estacionamiento } from "./../interfaces/estacionamiento";
 import { Observable } from 'rxjs';
+import {regEstacionamiento} from "../interfaces/regEstacionamiento"
 
 
 @Injectable({
@@ -15,11 +16,16 @@ export class FirestoreService {
     const est = collection(this.firestore, 'estacionamiento');
     return addDoc(est, estacionamiento);
   }
+  createDocRegHistoricoEst(regEstacionamiento: regEstacionamiento) {
+    console.log("enviado")
+    const est = collection(this.firestore, 'regHistoricoEst');
+    return addDoc(est, regEstacionamiento);
+  }
+
   obtenerDoc(): Observable<Estacionamiento[]> {
     const est = collection(this.firestore, 'estacionamiento');
     const sortedquery = query(est, orderBy('disponible', 'desc'));
     return collectionData(est, { idField: 'id' }) as Observable<Estacionamiento[]>;
-
   }
 
   obtenerDocPref(): Observable<Estacionamiento[]> {

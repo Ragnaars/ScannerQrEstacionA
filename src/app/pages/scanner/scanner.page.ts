@@ -4,6 +4,7 @@ import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { FirestoreService } from "./../../services/firestore.service"
 import { FireUsuariosService } from "./../../services/fire-usuarios.service"
+import {regEstacionamiento} from "./../../interfaces/regEstacionamiento"
 import {
   get,
   getMs,
@@ -12,6 +13,7 @@ import {
   getCompareDate,
   getFormatDate,
 } from "util-tiempo";
+
 
 
 
@@ -140,15 +142,34 @@ export class ScannerPage implements OnInit {
               if (this.cantEstPref == 0) {
                 this.getEstDisp2();
                 console.log("id a actt", this.idEst, this.nroEst);
+               
+
                 this.fireEst.updateDoc(this.idEst, { disponible: false, email: this.email, patente: 'ABC12345' });
                 this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: this.idEst, nro_est: this.nroEst });
                 this.est_asig = this.nroEst
+                //registro hiustorico
+
+                const regEstHist = {
+                  nro_est : this.est_asig,
+                  hora : new Date(),
+                  usuario : this.email
+                }
+
+                this.fireEst.createDocRegHistoricoEst(regEstHist);
               } else {
                 console.log("id a act", this.idEstPref, this.nroEstPref);
                 //AQUI SE DEBE ACTUALIZAR EL ESTACIONAMIENTO PREFERENCIAL
                 this.fireEst.updateDoc(this.idEstPref, { disponible: false, email: this.email, patente: 'ABC12345' });
                 this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: this.idEstPref, nro_est: this.nroEstPref });
                 this.est_asig = this.nroEstPref
+                //registro historico
+                const regEstHist = {
+                  nro_est : this.est_asig,
+                  hora : new Date(),
+                  usuario : this.email
+                }
+
+                this.fireEst.createDocRegHistoricoEst(regEstHist);
               }
             } else {
               console.log("no preferencial")
@@ -165,6 +186,14 @@ export class ScannerPage implements OnInit {
                 this.fireEst.updateDoc(this.idEst, { disponible: false, email: this.email, patente: 'ABC12345' });
                 this.fireUsuarios.updateDoc(datosEstacionado.id, { id_est: this.idEst, nro_est: this.nroEst });
                 this.est_asig = this.nroEst
+                //reg histrocio est
+                const regEstHist = {
+                  nro_est : this.est_asig,
+                  hora : new Date(),
+                  usuario : this.email
+                }
+
+                this.fireEst.createDocRegHistoricoEst(regEstHist);
               }
             }
           }
@@ -176,7 +205,7 @@ export class ScannerPage implements OnInit {
       setTimeout(() => {
         this.bloqueoLecturaQR = false; // Desactivar el bloqueo de lectura después de un período de tiempo
         return;
-      }, 7000); // 5000 milisegundos = 5 segundos (ajusta este valor según tus necesidades)
+      }, 6000); // 5000 milisegundos = 5 segundos (ajusta este valor según tus necesidades)
     }
   }
 
