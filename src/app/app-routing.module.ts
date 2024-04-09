@@ -4,13 +4,23 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'scanner',
+    redirectTo: 'tabs/vista-est',
     pathMatch: 'full'
   },
   {
     path: 'scanner',
     loadChildren: () => import('./pages/scanner/scanner.module').then(m => m.ScannerPageModule)
   },
+  {
+    path: 'vista-est',
+    loadChildren: () => import('./pages/vista-est/vista-est.module').then(m => m.VistaEstPageModule)
+  },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule)
+  },
+
+
 ];
 
 @NgModule({

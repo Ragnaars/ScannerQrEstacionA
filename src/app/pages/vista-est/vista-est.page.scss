@@ -1,0 +1,27 @@
+
+ion-content{
+    --ion-background-color:#ffffff;
+}
+/* Estilo para la imagen cuando disponible es true */
+.disponible {
+  width: 10px; /* Ajusta el tamaño según tus necesidades */
+  height: 10px;
+  border-radius: 50%; /* Hace que la imagen sea circular */
+}
+
+/* Estilo para la imagen cuando disponible es false */
+.no-disponible {
+  width: 10px; /* Ajusta el tamaño según tus necesidades */
+  height: 10px;
+  border-radius: 50%; /* Hace que la imagen sea circular */
+}
+
+::ng-deep ion-card {
+  background-color: #666666; /* Reemplaza esto con el color que desees */
+  color: #FFFFFF; /* Cambia el color del texto si es necesario */
+}
+
+::ng-deep ion-header{
+  background-color:#012c56;
+
+}

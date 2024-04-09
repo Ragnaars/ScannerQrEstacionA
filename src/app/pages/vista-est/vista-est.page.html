@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-img
+    src="../../../assets/estduoc.png"
+    style="height: 100px; width: 200px; margin: 0 auto"
+  ></ion-img>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card
+    *ngFor="let datas of data; let i = index"
+    style="background-color: #012c56"
+  >
+    <ion-card-header>
+      <ion-card-title>
+        <h1 style="color: white">Estacionamiento #{{ i + 1 }}</h1>
+        <!-- Mostrar el índice único comenzando desde 1 -->
+        <p
+          *ngIf="datas.disponible == false"
+          style="color: white; font-size: medium"
+        >
+          Propietario : {{ datas.email }}
+        </p>
+        <!-- Mostrar el nombre del estacionamiento -->
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <h1 *ngIf="datas.disponible == true" style="font-size: small">
+        Disponible
+        <img
+          sty
+          class="disponible"
+          alt="Silhouette of mountains"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAA1BMVEVl/wB6QsljAAAAR0lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8GxYgAAb0jQ/cAAAAASUVORK5CYII="
+        />
+      </h1>
+      <h1 *ngIf="datas.disponible == false" style="font-size: small">
+        No disponible
+        <img
+          class="no-disponible"
+          alt="No disponible"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAA1BMVEX/AAAZ4gk3AAAAR0lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8GxYgAAb0jQ/cAAAAASUVORK5CYII="
+        />
+      </h1>
+      <h2 style="margin-top: 5%" *ngIf="datas.tipo == true">
+        Preferencial <ion-icon name="accessibility"></ion-icon>
+        <!-- Icono de silla de ruedas -->
+      </h2>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
