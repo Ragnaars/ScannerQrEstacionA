@@ -1,6 +1,9 @@
 // Tab bar flotante
+ion-content{
+--ion-background-color:#ffffff;
+}
+
 ion-tabs {
-    --background: white;
     ion-tab-bar {
         --background: #012c56;
         --color: white;

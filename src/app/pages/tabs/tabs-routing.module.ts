@@ -17,6 +17,10 @@ const routes: Routes = [
         loadChildren: () => import('../scanner/scanner.module').then(m => m.ScannerPageModule)
       },
       {
+        path: 'form-ingreso-est',
+        loadChildren: () => import('../form-ingreso-est/form-ingreso-est.module').then(m => m.FormIngresoEstPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/vista-est',
         pathMatch: 'full'

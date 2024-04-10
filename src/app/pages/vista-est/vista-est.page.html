@@ -41,10 +41,21 @@
           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAA1BMVEX/AAAZ4gk3AAAAR0lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8GxYgAAb0jQ/cAAAAASUVORK5CYII="
         />
       </h1>
-      <h2 style="margin-top: 5%" *ngIf="datas.tipo == true">
-        Preferencial <ion-icon name="accessibility"></ion-icon>
-        <!-- Icono de silla de ruedas -->
-      </h2>
+      <ion-row>
+        <ion-col size="9">
+          <h2 style="margin-top: 5%" *ngIf="datas.tipo == true">
+            Preferencial <ion-icon name="accessibility"></ion-icon>
+            <!-- Icono de silla de ruedas -->
+          </h2>
+        </ion-col>
+        <ion-col *ngIf="datas.disponible == false" size="3">
+          <ion-buttons>
+            <ion-button (click)="resetEst(datas.id)" style="width: 300px">
+              <ion-icon name="trash-bin-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-col>
+      </ion-row>
     </ion-card-content>
   </ion-card>
 </ion-content>

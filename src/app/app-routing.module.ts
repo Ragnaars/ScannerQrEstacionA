@@ -18,7 +18,11 @@ const routes: Routes = [
   {
     path: 'tabs',
     loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule)
+  },  {
+    path: 'form-ingreso-est',
+    loadChildren: () => import('./pages/form-ingreso-est/form-ingreso-est.module').then( m => m.FormIngresoEstPageModule)
   },
+
 
 
 ];

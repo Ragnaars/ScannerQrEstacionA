@@ -1,22 +1,44 @@
-<!-- For camera -->
-<ngx-scanner-qrcode
-  #action="scanner"
-  (event)="onQRCodeScanned($event)"
-></ngx-scanner-qrcode>
+<ion-header [translucent]="true">
+  <ion-img
+    src="../../../assets/estduoc.png"
+    style="height: 100px; width: 200px; margin: 0 auto"
+  ></ion-img>
+</ion-header>
 
-<!-- data  -->
-<!-- <span>{{ action.data.value | json }}</span -->
-<!-- value -->
-<!-- <span>{{ action.data | async | json }}</span -->
-<!-- async -->
+<ion-content [fullscreen]="true" class="ion-padding">
+  <h1 style="text-align: center">Scanner QR usuario</h1>
+  <!-- For camera -->
 
-<h3>Escaneado : {{this.email}}</h3>
-<h3 *ngIf="est_asig >0">Estacionamiento asignado {{est_asig}}</h3>
-<h3 *ngIf="est_asig == 0">Desvinculado de estacionamiento</h3>
-<!-- Loading -->
-<p *ngIf="action.isLoading">⌛ Loading...</p>
+  <div style="position: relative; top: 13%; rotate: 90deg; margin: 0">
+    <ngx-scanner-qrcode
+      #action="scanner"
+      (event)="onQRCodeScanned($event)"
+    ></ngx-scanner-qrcode>
+  </div>
 
-<!-- start -->
-<ion-button (click)="action.isStart ? action.stop() : action.start()">
-  {{action.isStart ? 'Stop' : 'Start'}}
-</ion-button>
+  <!-- data  -->
+  <!-- <span>{{ action.data.value | json }}</span -->
+  <!-- value -->
+  <!-- <span>{{ action.data | async | json }}</span -->
+  <!-- async -->
+  <div style="position: relative; top: 25%">
+    <div style="display: flex; justify-content: center; align-items: center">
+      <ion-button (click)="action.isStart ? action.stop() : action.start()">
+        {{action.isStart ? 'Detener' : 'Escanear'}}
+      </ion-button>
+    </div>
+    <div style="width: 100%; height: 120px; background-color: #012c56">
+      <h3 style="color: #fff">Escaneado : {{this.email}}</h3>
+      <h3 style="color: #fff" *ngIf="est_asig >0">
+        Estacionamiento asignado {{est_asig}}
+      </h3>
+      <h3 style="color: #fff" *ngIf="est_asig == 0">
+        Desvinculado de estacionamiento
+      </h3>
+    </div>
+    <!-- Loading -->
+    <p *ngIf="action.isLoading">⌛ Cargando...</p>
+
+    <!-- start -->
+  </div>
+</ion-content>
