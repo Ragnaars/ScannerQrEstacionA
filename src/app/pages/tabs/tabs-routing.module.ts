@@ -21,6 +21,10 @@ const routes: Routes = [
         loadChildren: () => import('../form-ingreso-est/form-ingreso-est.module').then(m => m.FormIngresoEstPageModule)
       },
       {
+        path: 'dashboards',
+        loadChildren: () => import('../dashboards/dashboards.module').then(m => m.DashboardsPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/vista-est',
         pathMatch: 'full'

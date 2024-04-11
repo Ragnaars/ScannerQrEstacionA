@@ -22,6 +22,10 @@ const routes: Routes = [
     path: 'form-ingreso-est',
     loadChildren: () => import('./pages/form-ingreso-est/form-ingreso-est.module').then( m => m.FormIngresoEstPageModule)
   },
+  {
+    path: 'dashboards',
+    loadChildren: () => import('./pages/dashboards/dashboards.module').then( m => m.DashboardsPageModule)
+  },
 
 
 

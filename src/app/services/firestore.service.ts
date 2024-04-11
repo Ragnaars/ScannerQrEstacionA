@@ -30,6 +30,20 @@ export class FirestoreService {
     return addDoc(est, regEstacionamiento);
   }
 
+  obtenerDataHistoricaEntrada() {
+    const est = collection(this.firestore, 'regHistoricoEst');
+    return collectionData(est, { idField: 'id' }) as Observable<regEstacionamiento[]>
+
+  }
+
+  obtenerDataHistoricaSalida() {
+    const est = collection(this.firestore, 'regHistoricoEstSalida');
+    const sortedquery = query(est, orderBy('fecha', 'desc'));
+    return collectionData(sortedquery, { idField: 'id' }) as Observable<regEstacionamiento[]>
+
+
+  }
+
 
   obtenerDoc(): Observable<Estacionamiento[]> {
     const est = collection(this.firestore, 'estacionamiento');
