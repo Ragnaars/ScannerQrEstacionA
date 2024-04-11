@@ -3,4 +3,5 @@ export interface Usuarios {
     codigoQr: string;
     id_est: string;
     nro_est: number;
+    id: string
 }

@@ -38,30 +38,38 @@ export class VistaEstPage implements OnInit {
     });
   }
 
-
   resetEst(nro_est: any) {
     console.log("ejecutando")
     this.fireUsuarios.obtenerDoc().subscribe(doc => {
-      //encontrar usuario estacionado
-      const usuarioEstacionado: any = doc.find((item: any) => item.id_est === nro_est);
-      console.log("UE", usuarioEstacionado);
+      // Encontrar usuario estacionado
+      const datos = doc.find((item: any) => item.id_est === nro_est);
+      console.log("UE", datos);
 
-      this.fireUsuarios.updateDoc(usuarioEstacionado.id, { id_est: '', nro_est: 0 });
-      //actualizar usuario estacionado
-      this.fireService.updateDoc(nro_est, { disponible: true, email: '', patente: '' });
+      // Verificar si se encontraron datos
+      if (datos) {
+        console.log("ejecutando 2");
+        console.log("datosUE", datos);
 
+        // Actualizar usuario estacionado
+        this.fireUsuarios.updateDoc(datos.id, { id_est: '', nro_est: 0 });
+        this.fireService.updateDoc(nro_est, { disponible: true, email: '', patente: '' });
 
-      //CREAR REGISTRO DE SALIDA
-      const regEstHist = {
-        nro_est: nro_est,
-        hora: new Date(),
-        usuario: usuarioEstacionado.email,
+        // Crear registro de salida
+        const regEstHist = {
+          nro_est: datos.nro_est,
+          hora: new Date(),
+          usuario: datos.email,
+        };
+
+        this.fireService.createDocRegHistoricoEstSalida(regEstHist);
+
+        console.log("Estacionamiento reseteado con éxito");
+        location.reload()
+      } else {
+        console.log("No se encontraron datos para el usuario estacionado.");
       }
-      this.fireService.createDocRegHistoricoEstSalida(usuarioEstacionado);
 
-      console.log("Estacionamiento reseteado con éxito");
     });
-
   }
 
 
