@@ -64,7 +64,10 @@ export class VistaEstPage implements OnInit {
         this.fireService.createDocRegHistoricoEstSalida(regEstHist);
 
         console.log("Estacionamiento reseteado con éxito");
-        location.reload()
+        // Recargar la página pero antes espera 2 segundos
+        setTimeout(() => {
+          location.reload();
+        }, 1300);
       } else {
         console.log("No se encontraron datos para el usuario estacionado.");
       }

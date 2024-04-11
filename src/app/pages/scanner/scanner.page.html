@@ -9,7 +9,7 @@
   <h1 style="text-align: center">Scanner QR usuario</h1>
   <!-- For camera -->
 
-  <div style="position: relative; top: 13%; rotate: 90deg; margin: 0">
+  <div style="position: relative; margin: 0">
     <ngx-scanner-qrcode
       #action="scanner"
       (event)="onQRCodeScanned($event)"
@@ -21,7 +21,7 @@
   <!-- value -->
   <!-- <span>{{ action.data | async | json }}</span -->
   <!-- async -->
-  <div style="position: relative; top: 25%">
+  <div style="position: relative" style="margin-bottom: 5vh">
     <div style="display: flex; justify-content: center; align-items: center">
       <ion-button (click)="action.isStart ? action.stop() : action.start()">
         {{action.isStart ? 'Detener' : 'Escanear'}}
