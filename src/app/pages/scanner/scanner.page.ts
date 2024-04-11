@@ -45,6 +45,9 @@ export class ScannerPage implements OnInit {
 
 
   ngOnInit() {
+
+
+    // Modifica el color de fondo del canvas
     this.fireUsuarios.obtenerDoc().subscribe((data: any) => {
       this.data = data;
       console.log("data", this.data);
