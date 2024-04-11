@@ -7,9 +7,18 @@
 
 <ion-content [fullscreen]="true">
   <h1>Formulario de ingreso de estacionamiento</h1>
-  <form action="formaulario">
-    <div>
-      <label for=""></label>
-    </div>
+
+  <form action="/enviar" method="post">
+    <label for="nombre">Nombre:</label><br />
+    <input type="text" id="nombre" name="nombre" required /><br />
+
+    <label for="email">Email:</label><br />
+    <input type="email" id="email" name="email" required /><br />
+
+    <label for="mensaje">Mensaje:</label><br />
+    <textarea id="mensaje" name="mensaje" rows="4" cols="50" required></textarea
+    ><br />
+
+    <input type="submit" value="Enviar" />
   </form>
 </ion-content>

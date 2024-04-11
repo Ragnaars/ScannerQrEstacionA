@@ -40,6 +40,7 @@ export class ScannerPage implements OnInit {
   idEstPref!: string;
   nroEstPref: number = 0;
   cantEstPref!: number;
+  segundos!: number
 
   constructor(private fireEst: FirestoreService, private fireUsuarios: FireUsuariosService) { }
 
@@ -66,8 +67,25 @@ export class ScannerPage implements OnInit {
     //si no hay bloqueo de lectura entonces se ejecuta el codigo
     if (!this.bloqueoLecturaQR) {
       this.bloqueoLecturaQR = true; // Activar el bloqueo de lectura
+      this.segundos = 6; // Cambiar este valor según sea necesario
       this.codigoQR = event[0].value; // Obtener el valor del código QR
       const partes = this.codigoQR.split("//"); // separar el código QR en partes basado por la sintaxis del valor
+
+
+      // Función para actualizar el contador cada segundo
+      const actualizarContador = () => {
+        this.segundos--;
+        if (this.segundos > 0) {
+          setTimeout(actualizarContador, 1000); // Llama a esta función nuevamente después de 1 segundo
+        } else {
+          // Cuando se acaben los segundos, desactiva el bloqueo de lectura
+          this.bloqueoLecturaQR = false;
+        }
+      };
+      // Iniciar el contador
+
+      actualizarContador();
+
 
       //filtrar los estacionamientos disponibles y los guardamos en la variable verificador
       const verificador = this.estacionamientos.filter((estacionamiento: any) => estacionamiento.disponible === true)
