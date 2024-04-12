@@ -8,17 +8,39 @@
 <ion-content [fullscreen]="true">
   <h1>Formulario de ingreso de estacionamiento</h1>
 
-  <form action="/enviar" method="post">
-    <label for="nombre">Nombre:</label><br />
-    <input type="text" id="nombre" name="nombre" required /><br />
-
-    <label for="email">Email:</label><br />
-    <input type="email" id="email" name="email" required /><br />
-
-    <label for="mensaje">Mensaje:</label><br />
-    <textarea id="mensaje" name="mensaje" rows="4" cols="50" required></textarea
-    ><br />
-
-    <input type="submit" value="Enviar" />
+  <form [formGroup]="formIngresoEst" (submit)="registrarEntradaEst()">
+    <label for="email">Email</label>
+    <br />
+    <input id="email" type="text" formControlName="email" required email />
+    <br />
+    <br />
+    <label for="patente">Patente</label>
+    <br />
+    <input id="patente" type="text" formControlName="patente" required />
+    <strong><p>Tipo de estacionamiento</p></strong>
+    <input
+      required
+      id="tipoEst"
+      type="radio"
+      formControlName="tipoEst"
+      value="regular"
+    />
+    <label for="tipoEst">Regular</label>
+    <br />
+    <input
+      required
+      id="tipoEst"
+      type="radio"
+      formControlName="tipoEst"
+      value="preferencial"
+    />
+    <label for="tipoEst">Preferencial</label>
+    <br />
+    <br />
+    <ion-buttons>
+      <ion-button type="submit" style="background: blueviolet">
+        Enviar</ion-button
+      >
+    </ion-buttons>
   </form>
 </ion-content>
