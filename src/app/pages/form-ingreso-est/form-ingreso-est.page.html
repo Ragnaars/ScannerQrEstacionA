@@ -6,39 +6,59 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <h1>Formulario de ingreso de estacionamiento</h1>
 
-  <form [formGroup]="formIngresoEst" (submit)="registrarEntradaEst()">
+  <form class = "form-register" [formGroup]="formIngresoEst" (submit)="registrarEntradaEst()">
+    <strong><h4>Registro de ingresos</h4></strong>
     <label for="email">Email</label>
-    <br />
-    <input id="email" type="text" formControlName="email" required email />
-    <br />
-    <br />
+    <input 
+      class = "controls" 
+      id="email" 
+      type="text" 
+      formControlName="email" 
+      placeholder="Ej: ejemplo@duocuc.cl"
+      required 
+      email />
     <label for="patente">Patente</label>
-    <br />
-    <input id="patente" type="text" formControlName="patente" required />
+    <input class = "controls" 
+      id="patente" 
+      placeholder="Ej: AABB34 o aabb12"
+      type="text" 
+      formControlName="patente" 
+      pattern="[a-z]{2}[a-z]{2}\d{2}"
+      required/>
     <strong><p>Tipo de estacionamiento</p></strong>
-    <input
+    <div>
+      <label for="tipoEst">Regular</label>
+      <br>
+      <input class = "control"
       required
       id="tipoEst"
       type="radio"
       formControlName="tipoEst"
       value="regular"
     />
-    <label for="tipoEst">Regular</label>
-    <br />
-    <input
+    <br>
+    <br>
+    <label for="tipoEst">Preferencial</label>
+    <br>
+    <input class = "control"
       required
       id="tipoEst"
       type="radio"
       formControlName="tipoEst"
       value="preferencial"
     />
-    <label for="tipoEst">Preferencial</label>
-    <br />
-    <br />
+    <br>
+    <br>
+    </div>
+    
+    <strong><p>Estacionamientos disponibles</p></strong>
+      <ion-select label="Estacionamientos" placeholder="seleccionar">
+        <ion-select-option *ngFor = "let est of estacionamientos">{{est}}</ion-select-option>
+      </ion-select>
+    
     <ion-buttons>
-      <ion-button type="submit" style="background: blueviolet">
+      <ion-button class = "boton" [disabled]="!formIngresoEst.valid" type="submit" >
         Enviar</ion-button
       >
     </ion-buttons>

@@ -9,17 +9,20 @@ import { ReactiveFormsModule, FormGroup, FormBuilder, FormControl, AbstractContr
 export class FormIngresoEstPage implements OnInit {
 
   formIngresoEst: FormGroup;
-
+  estacionamientos: any[] = [1,2,3,4,5,6,7,8];
   constructor() {
 
     this.formIngresoEst = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      patente: new FormControl('', [Validators.required, this.patenteChilenaValidator()]),
+      patente: new FormControl('', [Validators.required]),
       tipoEst: new FormControl('regular', [Validators.required])
     })
   }
 
   ngOnInit() {
+
+    
+
   }
 
   registrarEntradaEst() {
@@ -30,7 +33,7 @@ export class FormIngresoEstPage implements OnInit {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const patente = control.value;
       console.log("patente", patente);
-      const patron = /^[A-Za-z]{2}\d{2}(\d{1}|[A-Za-z]{1})\d{2}$/;
+      const patron = /^[A-Z]{2}-[A-Z]{2}\d{2}$/;
 
       if (patron.test(patente)) {
         return null; // Patente válida, devuelve null
