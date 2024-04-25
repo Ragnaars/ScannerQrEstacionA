@@ -26,7 +26,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/vista-est',
+        redirectTo: 'vista-est',
         pathMatch: 'full'
       }
     ]

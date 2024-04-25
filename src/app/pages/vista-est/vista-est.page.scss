@@ -25,3 +25,19 @@ ion-content{
   background-color:#012c56;
 
 }
+
+body {
+  overflow: auto;
+  background-color: white;
+}
+
+ion-header {
+  background-color: #012c56;
+
+}
+
+ion-toolbar {
+--background: rgba(255, 255, 255, 0);
+
+}
+

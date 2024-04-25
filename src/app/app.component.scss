@@ -1,0 +1,48 @@
+.menu-items {
+    background: rgba(255, 255, 255, 0);
+    text-align: center;
+
+    ion-list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    ion-icon {
+        margin-right: 20px;
+        margin-left: 20px;
+        color: white;
+        background: rgba(255, 255, 255, 0);
+
+    }
+
+    ion-item {
+        padding-left: 20px;
+        margin-bottom: 10px;
+        --background: rgba(255, 255, 255, 0);
+    }
+
+    .active {
+        color: rgba(27, 94, 219, 0.699);
+        background-image: url('/assets/icon/caret-forward-sharp.svg');
+        background-repeat: no-repeat;
+        background-position: left center;
+        /* Ajusta la posición según tus necesidades */
+        background-size: 30px 30px;
+        /* Ajusta el tamaño según tus necesidades */
+        padding-left: 10px;
+        /* Ajusta el padding para evitar que el texto se superponga con el icono */
+    }
+
+
+}
+
+ion-header {
+    background-color: #012c56;
+
+}
+
+ion-toolbar {
+    --background: rgba(255, 255, 255, 0);
+
+}

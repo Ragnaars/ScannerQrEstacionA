@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart, registerables } from "node_modules/chart.js";
 import { FirestoreService } from "../../services/firestore.service";
-
+// import function to register Swiper custom elements
+import { register } from 'swiper/element/bundle';
+// register Swiper custom elements
+register();
 
 Chart.register(...registerables);
 
@@ -24,6 +27,7 @@ export class DashboardsPage implements OnInit {
   //radar
   maxHora: number = 0;
   minHora: number = 0;
+
 
 
 

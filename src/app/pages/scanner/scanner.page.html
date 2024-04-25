@@ -1,50 +1,76 @@
 <ion-header [translucent]="true">
-  <ion-img
-    src="../../../assets/estduoc.png"
-    style="height: 100px; width: 200px; margin: 0 auto"
-  ></ion-img>
+  <ion-toolbar>
+    <ion-img src="../../../assets/estduoc.png" style="height: 100px; width: 200px; margin: 0 auto"></ion-img>
+
+    <ion-buttons slot="start">
+      <ion-menu-button color="light" menu="main-menu"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
-  <h1 style="text-align: center">Scanner QR usuario</h1>
-  <!-- For camera -->
+<body >
+  <div style="margin-top: 15vh;">
+    <ion-grid>
+      <ion-row>
+        <ion-col></ion-col>
+        <ion-col>   
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title><strong>Scanner QR usuario</strong> 
+              </ion-card-title>
+              <ion-card-subtitle></ion-card-subtitle>
+            </ion-card-header>
+              <ion-card-content>
+                <!-- For camera -->
+              
+                <div style="position: relative; margin: 0">
+                  <ngx-scanner-qrcode
+                    #action="scanner"
+                    (event)="onQRCodeScanned($event)"
+                  ></ngx-scanner-qrcode>
+                </div>
+              
+                <!-- data  -->
+                <!-- <span>{{ action.data.value | json }}</span -->
+                <!-- value -->
+                <!-- <span>{{ action.data | async | json }}</span -->
+                <!-- async -->
+                <div style="position: relative" style="margin-bottom: 5vh">
+                  <br>
+                  <div style="display: flex; justify-content: center; align-items: center">
+                    <ion-button (click)="action.isStart ? action.stop() : action.start()">
+                      {{action.isStart ? 'Detener' : 'Escanear'}}
+                    </ion-button>
+                  </div>
+                  <br>
+                  <div style="width: 100%; height: 120px; background-color: #012c56; text-align: center;">
+                    <h2 *ngIf="segundos == 0" style="color: #fff">
+                      Ya puedes volver a escanear
+                    </h2>
+                    <h2 *ngIf="segundos>0" style="color: #fff">
+                      Puede volver a escanear en {{segundos}} segundos
+                    </h2>
+                    <br>
+                    <h3 style="color: #fff;">Escaneado : {{this.email}}</h3>
+                    <h3 style="color: #fff" *ngIf="est_asig >0">
+                      Estacionamiento asignado {{est_asig}}
+                    </h3>
+                    <h3 style="color: #fff" *ngIf="est_asig == 0">
+                      Desvinculado de estacionamiento
+                      <br>
+                    </h3>
+                  </div>
+                  <!-- Loading -->
+                  <p *ngIf="action.isLoading">⌛ Cargando...</p>
+              
+                  <!-- start -->
+                </div>
+              </ion-card-content>
+          </ion-card> 
 
-  <div style="position: relative; margin: 0">
-    <ngx-scanner-qrcode
-      #action="scanner"
-      (event)="onQRCodeScanned($event)"
-    ></ngx-scanner-qrcode>
+      </ion-col>
+        <ion-col></ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
-
-  <!-- data  -->
-  <!-- <span>{{ action.data.value | json }}</span -->
-  <!-- value -->
-  <!-- <span>{{ action.data | async | json }}</span -->
-  <!-- async -->
-  <div style="position: relative" style="margin-bottom: 5vh">
-    <div style="display: flex; justify-content: center; align-items: center">
-      <ion-button (click)="action.isStart ? action.stop() : action.start()">
-        {{action.isStart ? 'Detener' : 'Escanear'}}
-      </ion-button>
-    </div>
-    <div style="width: 100%; height: 120px; background-color: #012c56">
-      <h2 *ngIf="segundos == 0" style="color: #fff">
-        Ya puedes volver a escanear
-      </h2>
-      <h2 *ngIf="segundos>0" style="color: #fff">
-        Puede volver a escanear en {{segundos}} segundos
-      </h2>
-      <h3 style="color: #fff">Escaneado : {{this.email}}</h3>
-      <h3 style="color: #fff" *ngIf="est_asig >0">
-        Estacionamiento asignado {{est_asig}}
-      </h3>
-      <h3 style="color: #fff" *ngIf="est_asig == 0">
-        Desvinculado de estacionamiento
-      </h3>
-    </div>
-    <!-- Loading -->
-    <p *ngIf="action.isLoading">⌛ Cargando...</p>
-
-    <!-- start -->
-  </div>
-</ion-content>
+</body>

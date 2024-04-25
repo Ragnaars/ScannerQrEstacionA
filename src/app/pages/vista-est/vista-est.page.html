@@ -1,61 +1,52 @@
 <ion-header [translucent]="true">
-  <ion-img
-    src="../../../assets/estduoc.png"
-    style="height: 100px; width: 200px; margin: 0 auto"
-  ></ion-img>
+  <ion-toolbar>
+    <ion-img src="../../../assets/estduoc.png" style="height: 100px; width: 200px; margin: 0 auto"></ion-img>
+
+    <ion-buttons slot="start">
+      <ion-menu-button color="light" menu="main-menu"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-card
-    *ngFor="let datas of data; let i = index"
-    style="background-color: #012c56"
-  >
-    <ion-card-header>
-      <ion-card-title>
-        <h1 style="color: white">Estacionamiento #{{ i + 1 }}</h1>
-        <!-- Mostrar el índice único comenzando desde 1 -->
-        <p
-          *ngIf="datas.disponible == false"
-          style="color: white; font-size: medium"
-        >
-          Propietario : {{ datas.email }}
-        </p>
-        <!-- Mostrar el nombre del estacionamiento -->
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <h1 *ngIf="datas.disponible == true" style="font-size: small">
-        Disponible
-        <img
-          sty
-          class="disponible"
-          alt="Silhouette of mountains"
-          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAA1BMVEVl/wB6QsljAAAAR0lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8GxYgAAb0jQ/cAAAAASUVORK5CYII="
-        />
-      </h1>
-      <h1 *ngIf="datas.disponible == false" style="font-size: small">
-        No disponible
-        <img
-          class="no-disponible"
-          alt="No disponible"
-          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAA1BMVEX/AAAZ4gk3AAAAR0lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8GxYgAAb0jQ/cAAAAASUVORK5CYII="
-        />
-      </h1>
+<body >
+  <div style="margin-top: 15vh;">
+    <ion-grid>
       <ion-row>
-        <ion-col size="9">
-          <h2 style="margin-top: 5%" *ngIf="datas.tipo == true">
-            Preferencial <ion-icon name="accessibility"></ion-icon>
-            <!-- Icono de silla de ruedas -->
-          </h2>
-        </ion-col>
-        <ion-col *ngIf="datas.disponible == false" size="3">
-          <ion-buttons>
-            <ion-button (click)="resetEst(datas.id)" style="width: 300px">
-              <ion-icon name="trash-bin-outline"></ion-icon>
-            </ion-button>
-          </ion-buttons>
+        <ion-col size="12" size-md="4" *ngFor="let datas of data; let i = index">
+          <ion-card style="background-color: #012c56; margin-top: 5vh;">
+            <ion-card-header>
+              <ion-card-title>
+                <h1 style="color: white">Estacionamiento #{{ i + 1 }}</h1>
+                <p *ngIf="!datas.disponible" style="color: white; font-size: medium">
+                  Propietario : {{ datas.email }}
+                </p>
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <h1 style="font-size: small">
+                {{ datas.disponible ? 'Disponible' : 'No disponible' }}
+                <img class="disponible" alt="Silhouette of mountains"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAA1BMVEVl/wB6QsljAAAAR0lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8GxYgAAb0jQ/cAAAAASUVORK5CYII=" />
+              </h1>
+              <ion-row *ngIf="datas.tipo">
+                <ion-col>
+                  <!-- <h2 style="margin-top: 5%">
+                    Preferencial <ion-icon name="accessibility"></ion-icon>
+                  </h2> -->
+                </ion-col>
+                <ion-col *ngIf="!datas.disponible" size="3">
+                  <ion-buttons>
+                    <ion-button (click)="resetEst(datas.id)" style="width: 300px">
+                      <ion-icon name="trash-bin-outline"></ion-icon>
+                    </ion-button>
+                  </ion-buttons>
+                </ion-col>
+              </ion-row>
+            </ion-card-content>
+          </ion-card>
         </ion-col>
       </ion-row>
-    </ion-card-content>
-  </ion-card>
-</ion-content>
+    </ion-grid>
+  </div>
+
+</body>

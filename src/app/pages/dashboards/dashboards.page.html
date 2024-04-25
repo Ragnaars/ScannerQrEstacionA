@@ -1,35 +1,121 @@
 <ion-header [translucent]="true">
-  <ion-img
-    src="../../../assets/estduoc.png"
-    style="height: 100px; width: 200px; margin: 0 auto"
-  ></ion-img>
+  <ion-toolbar>
+    <ion-img src="../../../assets/estduoc.png" style="height: 100px; width: 200px; margin: 0 auto"></ion-img>
+
+    <ion-buttons slot="start">
+      <ion-menu-button color="light" menu="main-menu"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <h1 style="text-align: center">dashboards</h1>
-
-  <div>
-    <p style="text-align: center">Barchart</p>
-    <canvas id="barchart"></canvas>
-    <ion-card style="background: #012c56">
-      <ion-card-content>
-        <h3 style="color: #fff">
-          El estacionamiento más ocupado es el nro : {{maxKey}} con {{maxBar}}
-          veces
-        </h3>
-        <h3 style="color: #fff">
-          El estacionamiento menos ocupado es el nro : {{minKey}} con {{minBar}}
-          veces
-        </h3>
-      </ion-card-content>
-    </ion-card>
-
+<body>
+  <!-- <ion-grid>
     <ion-row>
-      <ion-col size="6">
-        <p style="text-align: center">Radarchart</p>
-        <canvas id="rochart"></canvas>
+      <ion-col>1</ion-col>
+      <ion-col size="8">  
+        <div style="margin: 15vh;">
+
+        <h1 style="text-align: center">dashboards</h1>
+    
+        <div>
+          <ion-card>
+            <ion-card-title style="text-align: center">Barchart</ion-card-title>
+            <canvas id="barchart"></canvas>
+            <ion-card style="background: #012c56">
+              <ion-card-content>
+                <h3 style="color: #fff">
+                  El estacionamiento más ocupado es el nro : {{maxKey}} con {{maxBar}}
+                  veces
+                </h3>
+                <h3 style="color: #fff">
+                  El estacionamiento menos ocupado es el nro : {{minKey}} con {{minBar}}
+                  veces
+                </h3>
+              </ion-card-content>
+            </ion-card>
+          </ion-card>
+    
+          
+
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title style="text-align: center">Radarchart</ion-card-title>
+              <canvas id="rochart"></canvas>
+            </ion-card-header>
+            <ion-card style="background: #012c56">
+              <ion-card-content >
+                <h3 style="color: #fff">
+                  Horas con mas movimiento vehicular: {{maxHora}}Hrs
+                </h3>
+                <h3 style="color: #fff">
+                  Horas con menos movimiento vehicular : {{minHora}}Hrs
+                </h3>
+              </ion-card-content>
+            </ion-card>
+
+          </ion-card>
+          
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title style="text-align: center">Piechart</ion-card-title>
+              <canvas id="piechart"></canvas>
+            </ion-card-header>
+
+            <ion-card style="background: #012c56">
+              <ion-card-content>
+                <h3 style="color: #fff">
+                  El estacionamiento más ocupado es el nro : {{maxKey}} con
+                  {{maxBar}} veces
+                </h3>
+                <h3 style="color: #fff">
+                  El estacionamiento menos ocupado es el nro : {{minKey}} con
+                  {{minBar}} veces
+                </h3>
+              </ion-card-content>
+            </ion-card>
+          </ion-card>
+
+    
+        </div>
+    
+    
+    
+    
+    
+      </div></ion-col>
+      <ion-col>3</ion-col>
+    </ion-row>
+  </ion-grid> -->
+
+
+  <swiper-container class="mySwiper" navigation="true">
+    <swiper-slide>
+      <ion-card>
+        <ion-card-title style="text-align: center">Barchart</ion-card-title>
+        <canvas id="barchart"></canvas>
         <ion-card style="background: #012c56">
           <ion-card-content>
+            <h3 style="color: #fff">
+              El estacionamiento más ocupado es el nro : {{maxKey}} con {{maxBar}}
+              veces
+            </h3>
+            <h3 style="color: #fff">
+              El estacionamiento menos ocupado es el nro : {{minKey}} con {{minBar}}
+              veces
+            </h3>
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+    </swiper-slide>
+
+    <swiper-slide>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title style="text-align: center">Radarchart</ion-card-title>
+          <canvas id="rochart"></canvas>
+        </ion-card-header>
+        <ion-card style="background: #012c56">
+          <ion-card-content >
             <h3 style="color: #fff">
               Horas con mas movimiento vehicular: {{maxHora}}Hrs
             </h3>
@@ -38,23 +124,32 @@
             </h3>
           </ion-card-content>
         </ion-card>
-      </ion-col>
-      <ion-col size="6">
+
+      </ion-card>
+    </swiper-slide>
+    <swiper-slide>          
+      <ion-card>
+      <ion-card-header>
+        <ion-card-title style="text-align: center">Piechart</ion-card-title>
         <canvas id="piechart"></canvas>
-        <p style="text-align: center">Piechart</p>
-        <ion-card style="background: #012c56">
-          <ion-card-content>
-            <h3 style="color: #fff">
-              El estacionamiento más ocupado es el nro : {{maxKey}} con
-              {{maxBar}} veces
-            </h3>
-            <h3 style="color: #fff">
-              El estacionamiento menos ocupado es el nro : {{minKey}} con
-              {{minBar}} veces
-            </h3>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </div>
-</ion-content>
+      </ion-card-header>
+
+      <ion-card style="background: #012c56">
+        <ion-card-content>
+          <h3 style="color: #fff">
+            El estacionamiento más ocupado es el nro : {{maxKey}} con
+            {{maxBar}} veces
+          </h3>
+          <h3 style="color: #fff">
+            El estacionamiento menos ocupado es el nro : {{minKey}} con
+            {{minBar}} veces
+          </h3>
+        </ion-card-content>
+      </ion-card>
+    </ion-card></swiper-slide>
+  </swiper-container>
+
+
+
+  
+</body>
