@@ -58,42 +58,36 @@ export class FormIngresoEstPage implements OnInit {
   }
 
   registrarEntradaEst() {
-    console.log(this.formIngresoEst.value);
-    const email = this.formIngresoEst.value.email;
+    const formData = this.formIngresoEst.value;
+    const email = formData.email;
 
-    this.verificarEmailRegistrado(email).subscribe((encontrado: boolean) => {
-      console.log("encontrado", encontrado);
-      if (encontrado) {
-        // Si el correo electrónico está registrado, continuar con la lógica para registrar la entrada
-        const patente = this.formIngresoEst.value.patente;
-        const tipoEst = this.formIngresoEst.value.tipoEst;
-        const est = this.formIngresoEst.value.est;
-
-        // Lógica para registrar la entrada
-
-
-        //verificar que usuario no esté ya estacionado
-        this.fireUsuarios.obtenerDoc().subscribe((usuarios: any) => {
-          usuarios.forEach((usuario: any) => {
-            if (usuario.email === email && usuario.nro_est === 0) {
-              console.log("Usuario no estacionado", usuario);
-
-              //verificar que el est no 
-              return;
-            }
-            else if (usuario.email === email && usuario.nro_est !== 0) {
-              console.log("Usuario ya estacionado");
-              this.alreadyPark();
-              return;
-            }
-          });
-        })
-
-
-      } else {
-        // Si el correo electrónico no está registrado, mostrar la alerta
+    this.verificarEmailRegistrado(email).subscribe((emialEncontrado: boolean) => {
+      if (!emialEncontrado) {
         this.emailNoFound();
+        return;
       }
+
+      const { patente, tipoEst, est } = formData;
+
+      // Lógica para registrar la entrada
+
+      this.fireUsuarios.obtenerDoc().subscribe((usuarios: any) => {
+        const usuario = usuarios.find((u: any) => u.email === email);
+
+        if (!usuario) {
+          console.log("Usuario no encontrado");
+          return;
+        }
+
+        if (usuario.nro_est !== 0) {
+          console.log("Usuario ya estacionado", usuario);
+          this.alreadyPark();
+          return;
+        }
+
+        console.log("Usuario no estacionado");
+
+      });
     });
   }
 
