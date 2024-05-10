@@ -35,6 +35,7 @@
     "patente-chilena-dv": "^0.0.7",
     "rxfire": "^6.0.3",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.10.8",
     "tslib": "^2.3.0",
     "util-tiempo": "^1.0.52",
     "zone.js": "~0.13.0"

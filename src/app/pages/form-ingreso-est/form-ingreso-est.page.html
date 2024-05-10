@@ -6,59 +6,87 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
-  <form class = "form-register" [formGroup]="formIngresoEst" (submit)="registrarEntradaEst()">
+  <form
+    class="form-register"
+    [formGroup]="formIngresoEst"
+    (submit)="registrarEntradaEst()"
+  >
     <strong><h4>Registro de ingresos</h4></strong>
     <label for="email">Email</label>
-    <input 
-      class = "controls" 
-      id="email" 
-      type="text" 
-      formControlName="email" 
+    <input
+      class="controls"
+      id="email"
+      type="text"
+      formControlName="email"
       placeholder="Ej: ejemplo@duocuc.cl"
-      required 
-      email />
+      required
+      email
+    />
     <label for="patente">Patente</label>
-    <input class = "controls" 
-      id="patente" 
+    <input
+      class="controls"
+      id="patente"
       placeholder="Ej: AABB34 o aabb12"
-      type="text" 
-      formControlName="patente" 
+      type="text"
+      formControlName="patente"
       pattern="[a-z]{2}[a-z]{2}\d{2}"
-      required/>
+      required
+    />
     <strong><p>Tipo de estacionamiento</p></strong>
     <div>
       <label for="tipoEst">Regular</label>
-      <br>
-      <input class = "control"
-      required
-      id="tipoEst"
-      type="radio"
-      formControlName="tipoEst"
-      value="regular"
-    />
-    <br>
-    <br>
-    <label for="tipoEst">Preferencial</label>
-    <br>
-    <input class = "control"
-      required
-      id="tipoEst"
-      type="radio"
-      formControlName="tipoEst"
-      value="preferencial"
-    />
-    <br>
-    <br>
+      <br />
+      <input
+        class="control"
+        required
+        id="tipoEst"
+        type="radio"
+        formControlName="tipoEst"
+        value="regular"
+      />
+      <br />
+      <br />
+      <label for="tipoEst">Preferencial</label>
+      <br />
+      <input
+        class="control"
+        required
+        id="tipoEst"
+        type="radio"
+        formControlName="tipoEst"
+        value="preferencial"
+      />
+      <br />
+      <br />
     </div>
-    
+
     <strong><p>Estacionamientos disponibles</p></strong>
-      <ion-select label="Estacionamientos" placeholder="seleccionar">
-        <ion-select-option *ngFor = "let est of estacionamientos">{{est}}</ion-select-option>
-      </ion-select>
-    
+    <ion-select
+      label="Estacionamientos disponibles"
+      placeholder="seleccionar"
+      formControlName="est"
+    >
+      <div *ngIf="formIngresoEst.value.tipoEst === 'regular'">
+        <ion-select-option *ngFor="let estReg of cantEstReg" value="{{estReg}}">
+          {{estReg}}
+        </ion-select-option>
+      </div>
+      <div *ngIf="formIngresoEst.value.tipoEst === 'preferencial'">
+        <ion-select-option
+          *ngFor="let estPref of cantEstPref"
+          value="{{estPref}}"
+        >
+          {{estPref}}
+        </ion-select-option>
+      </div>
+    </ion-select>
+
     <ion-buttons>
-      <ion-button class = "boton" [disabled]="!formIngresoEst.valid" type="submit" >
+      <ion-button
+        class="boton"
+        [disabled]="!formIngresoEst.valid"
+        type="submit"
+      >
         Enviar</ion-button
       >
     </ion-buttons>
